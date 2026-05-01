@@ -23,14 +23,12 @@ Proje 5 → Ölçek ve dağıtık sistemler
 
 **Stack:** FastAPI · Qdrant · Ollama (Qwen) · LlamaIndex · Docker Compose
 
-**Ne yapıldı:**
+**Ne yapılacak:**
 - PDF yükle, chunk'la, embed et, Qdrant'a yaz
 - Soru sor → vektör ara → LLM'e ver → cevap al
 - RAGAS ile faithfulness ve answer_relevancy ölçümü
 
 **Kazanımlar:** Ingestion pipeline'ının her adımı, embedding'in ne işe yaradığı, retrieval'ın neden bazen başarısız olduğu bizzat görüldü.
-
-**Süre:** 2-3 hafta
 
 ---
 
@@ -47,8 +45,6 @@ Proje 5 → Ölçek ve dağıtık sistemler
 
 **Kazanımlar:** Neden production sistemlerde her şey async yazıldığı, connection pool'un ne işe yaradığı, structured log'un neden önemli olduğu.
 
-**Süre:** 2-3 hafta
-
 ---
 
 ## Proje 3 — Agentic RAG `🔒`
@@ -64,8 +60,6 @@ Proje 5 → Ölçek ve dağıtık sistemler
 
 **Kazanımlar:** LangGraph'ın state machine mantığı, agent'ın neden bazen döngüye girdiği, tool kullanımının ne zaman retrieval'dan daha iyi olduğu.
 
-**Süre:** 3-4 hafta
-
 ---
 
 ## Proje 4 — Hybrid Retrieval + Knowledge Graph `🔒`
@@ -80,8 +74,6 @@ Proje 5 → Ölçek ve dağıtık sistemler
 - Reranker ekleyip retrieval kalitesinin nasıl değiştiğini ölç
 
 **Kazanımlar:** Knowledge graph'ın gerçekten ne zaman fark yarattığı, reranking'in önemi, hybrid search'ün trade-off'ları.
-
-**Süre:** 3-4 hafta
 
 ---
 
@@ -99,16 +91,14 @@ Proje 5 → Ölçek ve dağıtık sistemler
 
 **Kazanımlar:** Kubernetes'in neden bu kadar merkezi olduğu, Helm'in ne sorunu çözdüğü, model serving'in API'den neden ayrılması gerektiği.
 
-**Süre:** 4-5 hafta
-
 ---
 
 ## Genel Bakış
 
 | Proje | Odak | Süre | Durum |
 |---|---|---|---|
-| 1 — Minimal RAG | RAG özü | 2-3 hafta | ✅ Tamamlandı |
-| 2 — Production | Güvenilirlik | 2-3 hafta | ⏳ Sıradaki |
-| 3 — Agentic | Akıl yürütme | 3-4 hafta | 🔒 |
-| 4 — Hybrid | Retrieval kalitesi | 3-4 hafta | 🔒 |
-| 5 — Scale | Dağıtık sistemler | 4-5 hafta | 🔒 |
+| 1 — Minimal RAG | RAG özü | ✅ Tamamlandı |
+| 2 — Production | Güvenilirlik | ⏳ Sıradaki |
+| 3 — Agentic | Akıl yürütme | 🔒 |
+| 4 — Hybrid | Retrieval kalitesi | 🔒 |
+| 5 — Scale | Dağıtık sistemler | 🔒 |
