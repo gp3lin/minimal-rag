@@ -95,7 +95,7 @@ Proje 5 → Ölçek ve dağıtık sistemler
 
 ## Genel Bakış
 
-| Proje | Odak | Süre | Durum |
+| Proje | Odak | Durum |
 |---|---|---|---|
 | 1 — Minimal RAG | RAG özü | ✅ Tamamlandı |
 | 2 — Production | Güvenilirlik | ⏳ Sıradaki |
