@@ -95,10 +95,10 @@ Proje 5 → Ölçek ve dağıtık sistemler
 
 ## Genel Bakış
 
-| Proje | Odak | Durum |
-|---|---|---|---|
-| 1 — Minimal RAG | RAG özü | ✅ Tamamlandı |
-| 2 — Production | Güvenilirlik | ⏳ Sıradaki |
-| 3 — Agentic | Akıl yürütme | 🔒 |
-| 4 — Hybrid | Retrieval kalitesi | 🔒 |
-| 5 — Scale | Dağıtık sistemler | 🔒 |
+| Proje              | Odak               | Durum          |
+|--------------------|--------------------|----------------|
+| 1 — Minimal RAG    | RAG özü            | ✅ Tamamlandı  |
+| 2 — Production     | Güvenilirlik       | ⏳ Sıradaki    |
+| 3 — Agentic        | Akıl yürütme       | 🔒             |
+| 4 — Hybrid         | Retrieval kalitesi | 🔒             |
+| 5 — Scale          | Dağıtık sistemler  | 🔒             |
