@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "lang": "tr",
+    "question": "SVD nedir ve ne işe yarar?",
+    "ground_truth": "SVD (Singular Value Decomposition), bir matrisin üç matrisin çarpımı olarak ayrıştırılmasıdır: A = UΣVᵀ. Boyut indirgeme, gürültü giderme, öneri sistemleri ve veri sıkıştırma gibi alanlarda kullanılır."
+  },
+  {
+    "id": 2,
+    "lang": "en",
+    "question": "What is SVD and what is it used for?",
+    "ground_truth": "SVD (Singular Value Decomposition) factorizes a matrix into three matrices: A = UΣVᵀ. It is used for dimensionality reduction, noise reduction, recommendation systems, and data compression."
+  },
+  {
+    "id": 3,
+    "lang": "tr",
+    "question": "QR ayrıştırması nasıl çalışır?",
+    "ground_truth": "QR ayrıştırması bir matrisi ortogonal bir Q matrisi ile üst üçgen bir R matrisinin çarpımına böler. En küçük kareler problemlerini çözmek ve özdeğer hesaplamalarında kullanılır."
+  },
+  {
+    "id": 4,
+    "lang": "en",
+    "question": "How does QR decomposition work?",
+    "ground_truth": "QR decomposition factors a matrix into an orthogonal matrix Q and an upper triangular matrix R. It is used for solving least squares problems and eigenvalue computations."
+  },
+  {
+    "id": 5,
+    "lang": "tr",
+    "question": "LU ayrıştırması ne zaman kullanılır?",
+    "ground_truth": "LU ayrıştırması bir matrisi alt üçgen (L) ve üst üçgen (U) matrislerin çarpımına böler. Doğrusal denklem sistemlerini verimli şekilde çözmek için kullanılır."
+  },
+  {
+    "id": 6,
+    "lang": "en",
+    "question": "When is LU decomposition used?",
+    "ground_truth": "LU decomposition factors a matrix into lower triangular (L) and upper triangular (U) matrices. It is used for efficiently solving systems of linear equations."
+  },
+  {
+    "id": 7,
+    "lang": "tr",
+    "question": "Matris yöntemlerinde rastgele algoritmalar neden kullanılır?",
+    "ground_truth": "Rastgele algoritmalar büyük ölçekli matrislerde tam çözümlerin hesaplama maliyetini azaltmak için kullanılır. Rastgele örnekleme ile yaklaşık SVD gibi ayrıştırmalar çok daha hızlı hesaplanabilir."
+  },
+  {
+    "id": 8,
+    "lang": "en",
+    "question": "Why are randomized algorithms used in matrix methods?",
+    "ground_truth": "Randomized algorithms reduce the computational cost of exact solutions for large-scale matrices. Approximate decompositions such as randomized SVD can be computed much faster using random sampling."
+  },
+  {
+    "id": 9,
+    "lang": "tr",
+    "question": "Seyrek matrisler nasıl verimli işlenir?",
+    "ground_truth": "Seyrek matrisler yalnızca sıfır olmayan elemanları depolayan özel veri yapılarıyla temsil edilir. Bu sayede bellek kullanımı ve işlem süresi büyük ölçüde azaltılır."
+  },
+  {
+    "id": 10,
+    "lang": "en",
+    "question": "How are sparse matrices processed efficiently?",
+    "ground_truth": "Sparse matrices are represented using special data structures that store only non-zero elements. This significantly reduces memory usage and computation time."
+  }
+]

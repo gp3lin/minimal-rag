@@ -1,0 +1,18 @@
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Data
+data/papers/
+
+# Eval raporları
+eval/reports/
+
+# IDE
+.vscode/
+.idea/

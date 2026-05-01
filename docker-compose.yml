@@ -1,0 +1,42 @@
+version: "3.9"
+
+networks:
+  rag-network:
+    driver: bridge
+
+volumes:
+  qdrant_data:
+
+services:
+  qdrant:
+    image: qdrant/qdrant:v1.7.3
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - rag-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:6333/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rag-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    networks:
+      - rag-network
+    depends_on:
+      - qdrant
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
