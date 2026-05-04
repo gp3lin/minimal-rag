@@ -16,3 +16,4 @@ eval/reports/
 # IDE
 .vscode/
 .idea/
+.claude/

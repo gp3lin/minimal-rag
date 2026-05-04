@@ -1,19 +1,32 @@
-import logging
+import structlog
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
+from db.database import engine
+from db.models import Base
+
 load_dotenv()
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger(__name__)
+structlog.configure(
+    processors=[
+        structlog.processors.TimeStamper(fmt="iso"),
+        structlog.processors.add_log_level,
+        structlog.processors.JSONRenderer(),
+    ]
+)
+
+logger = structlog.get_logger()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("API başlatılıyor...")
+    logger.info("api_starting")
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    logger.info("db_tables_ready")
     yield
-    logger.info("API kapatılıyor...")
+    logger.info("api_stopping")
 
 
 app = FastAPI(title="Minimal RAG API", lifespan=lifespan)
