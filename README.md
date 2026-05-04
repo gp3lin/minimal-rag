@@ -32,18 +32,19 @@ Proje 5 → Ölçek ve dağıtık sistemler
 
 ---
 
-## Proje 2 — Production Temelleri `⏳ Sıradaki`
+## Proje 2 — Production Temelleri `✅ Tamamlandı`
 
 **Hedef:** Sistemi güvenilir ve gözlemlenebilir yapmak.
 
-**Eklenecekler:** PostgreSQL · Redis · Structured logging · Retry mekanizması
+**Stack:** PostgreSQL · Redis · structlog · tenacity
 
-**Ne yapılacak:**
-- Multi-turn konuşma (sohbet geçmişi PostgreSQL'de)
-- Semantic cache: aynı soru iki kez sorulunca ikincisi Redis'ten gelsin
-- Cache hit/miss oranı ve latency loglanacak
+**Ne yapıldı:**
+- Multi-turn konuşma (sohbet geçmişi PostgreSQL'de, son 10 mesaj bağlam olarak)
+- Semantic cache: cosine similarity ≥ 0.90 ise Redis'ten dön (~150ms vs ~38sn)
+- Exponential backoff retry: Ollama hata verirse 3 kez dene
+- JSON structured logging: cache_hit, latency_ms, conversation_id her log'da
 
-**Kazanımlar:** Neden production sistemlerde her şey async yazıldığı, connection pool'un ne işe yaradığı, structured log'un neden önemli olduğu.
+**Kazanımlar:** Neden production sistemlerde her şey async yazıldığı, semantic cache'in exact match'ten farkı, structured log'un neden önemli olduğu.
 
 ---
 
@@ -98,7 +99,7 @@ Proje 5 → Ölçek ve dağıtık sistemler
 | Proje              | Odak               | Durum          |
 |--------------------|--------------------|----------------|
 | 1 — Minimal RAG    | RAG özü            | ✅ Tamamlandı  |
-| 2 — Production     | Güvenilirlik       | ⏳ Sıradaki    |
-| 3 — Agentic        | Akıl yürütme       | 🔒             |
+| 2 — Production     | Güvenilirlik       | ✅ Tamamlandı  |
+| 3 — Agentic        | Akıl yürütme       | ⏳ Sıradaki    |
 | 4 — Hybrid         | Retrieval kalitesi | 🔒             |
 | 5 — Scale          | Dağıtık sistemler  | 🔒             |
