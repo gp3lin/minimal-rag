@@ -48,18 +48,19 @@ Proje 5 → Ölçek ve dağıtık sistemler
 
 ---
 
-## Proje 3 — Agentic RAG `🔒`
+## Proje 3 — Agentic RAG `✅ Tamamlandı`
 
 **Hedef:** Agent'ın nasıl "düşündüğünü" anlamak.
 
-**Eklenecekler:** LangGraph · Query rewriting · HyDE · Tool use (calculator, web search)
+**Stack:** LangGraph · HyDE · Query rewriting · Self-RAG · Calculator (ast)
 
-**Ne yapılacak:**
-- Planner / Retriever / Responder node'ları
-- Self-RAG döngüsü: cevap yeterli değilse tekrar ara
-- Basit sorularda retrieval yerine direkt araç kullan
+**Ne yapıldı:**
+- Planner soruyu analiz edip rota seçiyor: retrieval veya calculator
+- HyDE ile hayali cevap embed ediliyor → retrieval skoru 0.62'den 0.74'e çıktı
+- Self-RAG: evaluator cevap yeterliliğini kontrol ediyor, yetersizse tekrar deniyor
+- Calculator: hesap sorularında Qdrant'a gitmiyor, ast ile güvenli eval
 
-**Kazanımlar:** LangGraph'ın state machine mantığı, agent'ın neden bazen döngüye girdiği, tool kullanımının ne zaman retrieval'dan daha iyi olduğu.
+**Kazanımlar:** LangGraph'ın state machine mantığı, HyDE'nin retrieval'a etkisi, Self-RAG döngüsünün nasıl çalıştığı.
 
 ---
 
@@ -100,6 +101,6 @@ Proje 5 → Ölçek ve dağıtık sistemler
 |--------------------|--------------------|----------------|
 | 1 — Minimal RAG    | RAG özü            | ✅ Tamamlandı  |
 | 2 — Production     | Güvenilirlik       | ✅ Tamamlandı  |
-| 3 — Agentic        | Akıl yürütme       | ⏳ Sıradaki    |
-| 4 — Hybrid         | Retrieval kalitesi | 🔒             |
+| 3 — Agentic        | Akıl yürütme       | ✅ Tamamlandı  |
+| 4 — Hybrid         | Retrieval kalitesi | ⏳ Sıradaki    |
 | 5 — Scale          | Dağıtık sistemler  | 🔒             |
