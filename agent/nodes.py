@@ -1,11 +1,12 @@
 import ast
+import asyncio
 import operator
 import os
 import httpx
 import structlog
 
 from agent.state import AgentState
-from retrieval.searcher import search
+from retrieval.hybrid_searcher import hybrid_search
 
 logger = structlog.get_logger()
 
@@ -58,8 +59,10 @@ Question: {query}
 Paragraph:"""
     hyde_doc = await _llm(hyde_prompt)
 
-    chunks = search(hyde_doc)
-    logger.info("retriever_done", chunk_count=len(chunks), top_score=chunks[0]["score"] if chunks else 0)
+    # Hybrid search: HyDE doc ile vektör + graph birleşimi, BGE rerank
+    loop = asyncio.get_event_loop()
+    chunks = await loop.run_in_executor(None, hybrid_search, hyde_doc)
+    logger.info("retriever_done", chunk_count=len(chunks), top_score=chunks[0]["rerank_score"] if chunks else 0)
     return {"hyde_document": hyde_doc, "chunks": chunks}
 
 

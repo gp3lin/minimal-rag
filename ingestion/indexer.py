@@ -9,6 +9,7 @@ from qdrant_client.models import Distance, VectorParams, PointStruct
 from loader import load_pdf
 from chunker import chunk_pages
 from embedder import embed_chunks
+from graph_extractor import build_knowledge_graph
 
 load_dotenv()
 
@@ -56,7 +57,7 @@ def upsert_chunks(client: QdrantClient, embedded_chunks: list[dict]) -> None:
     logger.info(f"{len(points)} chunk Qdrant'a yazıldı")
 
 
-def index_pdf(filepath: str) -> None:
+def index_pdf(filepath: str, build_graph: bool = True) -> None:
     logger.info(f"İndeksleme başlıyor: {filepath}")
 
     pages = load_pdf(filepath)
@@ -66,6 +67,10 @@ def index_pdf(filepath: str) -> None:
     client = get_client()
     ensure_collection(client)
     upsert_chunks(client, embedded)
+
+    if build_graph:
+        logger.info("Knowledge graph oluşturuluyor...")
+        build_knowledge_graph(chunks)
 
     logger.info("İndeksleme tamamlandı")
 

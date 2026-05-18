@@ -8,6 +8,7 @@ volumes:
   qdrant_data:
   postgres_data:
   redis_data:
+  neo4j_data:
 
 services:
   qdrant:
@@ -62,6 +63,26 @@ services:
       timeout: 5s
       retries: 5
 
+  neo4j:
+    image: neo4j:5.15-community
+    container_name: neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: neo4j/ragpassword
+      NEO4J_PLUGINS: '[]'
+    volumes:
+      - neo4j_data:/data
+    networks:
+      - rag-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:7474"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+
   api:
     build:
       context: .
@@ -77,6 +98,7 @@ services:
       - qdrant
       - postgres
       - redis
+      - neo4j
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: unless-stopped

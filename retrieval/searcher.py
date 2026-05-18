@@ -24,8 +24,9 @@ def _embed_query(question: str) -> list[float]:
     return response.json()["embedding"]
 
 
-def search(question: str) -> list[dict]:
+def search(question: str, top_k: int | None = None) -> list[dict]:
     """Soruyu embed eder, Qdrant'ta arar, top-K chunk'ı döner."""
+    limit = top_k if top_k is not None else TOP_K
     logger.info(f"Arama başlıyor: '{question}'")
 
     query_vector = _embed_query(question)
@@ -34,7 +35,7 @@ def search(question: str) -> list[dict]:
     results = client.search(
         collection_name=QDRANT_COLLECTION,
         query_vector=query_vector,
-        limit=TOP_K,
+        limit=limit,
     )
 
     chunks = [

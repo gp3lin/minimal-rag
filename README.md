@@ -68,14 +68,15 @@ Proje 5 → Ölçek ve dağıtık sistemler
 
 **Hedef:** Vektörün yetersiz kaldığı yerde graph'ın ne kattığını görmek.
 
-**Eklenecekler:** Neo4j · Graph extraction pipeline · Hybrid search · Reranker (BGE)
+**Stack:** Neo4j · Graph extraction (spaCy) · Hybrid search · BGE Reranker
 
-**Ne yapılacak:**
-- Aynı corpus'u hem vektöre hem graph'a yaz
-- "X ile Y arasındaki ilişki nedir?" sorularında vektör vs hybrid karşılaştır
-- Reranker ekleyip retrieval kalitesinin nasıl değiştiğini ölç
+**Ne yapıldı:**
+- Neo4j'e entity+ilişki graph'ı yazıldı (spaCy ile chunk başına max 10 co-occurrence triple)
+- Hybrid search: Qdrant (7) + Neo4j (5) paralel → BGE reranker → top-5
+- `retriever` node HyDE doc'u artık her iki kaynağa da soruyor
+- `rerank_score` field'ı ile chunk kalitesi izlenebilir
 
-**Kazanımlar:** Knowledge graph'ın gerçekten ne zaman fark yarattığı, reranking'in önemi, hybrid search'ün trade-off'ları.
+**Kazanımlar:** Graph'ın "SVD↔PCA" gibi kavramsal ilişkileri vektörden önce bulması, reranking'in kaynak bağımsız sıralama yapması, hybrid merging'de deduplication önemi.
 
 ---
 
