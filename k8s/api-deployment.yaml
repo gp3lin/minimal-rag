@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rag-api
+  labels:
+    app: rag-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rag-api
+  template:
+    metadata:
+      labels:
+        app: rag-api
+    spec:
+      containers:
+        - name: rag-api
+          image: scalableragsystem-api:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          env:
+            - name: EMBED_SERVICE_URL
+              value: "http://embedding-service:8001"
+            - name: QDRANT_HOST
+              value: "qdrant"
+            - name: QDRANT_PORT
+              value: "6333"
+            - name: OLLAMA_BASE_URL
+              value: "http://host.minikube.internal:11434"
+            - name: NEO4J_URI
+              value: "bolt://neo4j:7687"
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rag-api
+spec:
+  selector:
+    app: rag-api
+  ports:
+    - port: 8000
+      targetPort: 8000
+  type: LoadBalancer

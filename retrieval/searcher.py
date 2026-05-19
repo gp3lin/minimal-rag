@@ -6,26 +6,24 @@ from qdrant_client import QdrantClient
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-EMBED_MODEL = os.getenv("EMBED_MODEL", "nomic-embed-text")
+EMBED_SERVICE_URL = os.getenv("EMBED_SERVICE_URL", "http://localhost:8001")
 QDRANT_HOST = os.getenv("QDRANT_HOST", "localhost")
 QDRANT_PORT = int(os.getenv("QDRANT_PORT", 6333))
 QDRANT_COLLECTION = os.getenv("QDRANT_COLLECTION", "math_papers")
 TOP_K = int(os.getenv("TOP_K", 5))
 
 
-def _embed_query(question: str) -> list[float]:
+def _embed_query(text: str) -> list[float]:
     response = httpx.post(
-        f"{OLLAMA_BASE_URL}/api/embeddings",
-        json={"model": EMBED_MODEL, "prompt": question},
-        timeout=60.0,
+        f"{EMBED_SERVICE_URL}/embed",
+        json={"text": text},
+        timeout=30.0,
     )
     response.raise_for_status()
     return response.json()["embedding"]
 
 
 def search(question: str, top_k: int | None = None) -> list[dict]:
-    """Soruyu embed eder, Qdrant'ta arar, top-K chunk'ı döner."""
     limit = top_k if top_k is not None else TOP_K
     logger.info(f"Arama başlıyor: '{question}'")
 

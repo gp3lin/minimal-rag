@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 QDRANT_HOST = os.getenv("QDRANT_HOST", "localhost")
 QDRANT_PORT = int(os.getenv("QDRANT_PORT", 6333))
 QDRANT_COLLECTION = os.getenv("QDRANT_COLLECTION", "math_papers")
-VECTOR_SIZE = 768
+VECTOR_SIZE = int(os.getenv("VECTOR_SIZE", 384))
 
 
 def get_client() -> QdrantClient:
@@ -29,15 +29,22 @@ def get_client() -> QdrantClient:
 
 
 def ensure_collection(client: QdrantClient) -> None:
-    existing = [c.name for c in client.get_collections().collections]
-    if QDRANT_COLLECTION not in existing:
-        client.create_collection(
-            collection_name=QDRANT_COLLECTION,
-            vectors_config=VectorParams(size=VECTOR_SIZE, distance=Distance.COSINE),
-        )
-        logger.info(f"Collection oluşturuldu: {QDRANT_COLLECTION}")
-    else:
-        logger.info(f"Collection zaten mevcut: {QDRANT_COLLECTION}")
+    existing = {c.name: c for c in client.get_collections().collections}
+    if QDRANT_COLLECTION in existing:
+        info = client.get_collection(QDRANT_COLLECTION)
+        current_size = info.config.params.vectors.size
+        if current_size != VECTOR_SIZE:
+            logger.info(f"Collection boyutu uyuşmuyor ({current_size} → {VECTOR_SIZE}), yeniden oluşturuluyor")
+            client.delete_collection(QDRANT_COLLECTION)
+        else:
+            logger.info(f"Collection zaten mevcut: {QDRANT_COLLECTION}")
+            return
+
+    client.create_collection(
+        collection_name=QDRANT_COLLECTION,
+        vectors_config=VectorParams(size=VECTOR_SIZE, distance=Distance.COSINE),
+    )
+    logger.info(f"Collection oluşturuldu: {QDRANT_COLLECTION} (dim={VECTOR_SIZE})")
 
 
 def upsert_chunks(client: QdrantClient, embedded_chunks: list[dict]) -> None:

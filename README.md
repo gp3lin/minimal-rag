@@ -82,17 +82,19 @@ Proje 5 → Ölçek ve dağıtık sistemler
 
 ## Proje 5 — Scalable Infrastructure `✅ Tamamlandı`
 
-**Hedef:** Sistemi Kubernetes ile deploy etmek.
+**Hedef:** Embedding'i bağımsız bir mikroservise taşımak, K8s altyapısını hazırlamak.
 
-**Eklenecekler:** Kubernetes (minikube) · Helm · Ray Serve · HPA · Terraform (opsiyonel)
+**Stack:** FastAPI · sentence-transformers · Kubernetes · Helm · HPA · locust
 
-**Ne yapılacak:**
-- Proje 3'teki sistemi K8s'e taşı
-- Helm ile Qdrant ve Neo4j deploy et
-- Ray Serve ile embedding modelini mikroservis yap
-- Load test yaz, autoscaling'i gözlemle
+**Ne yapıldı:**
+- Embedding Ollama'dan koparıldı → bağımsız FastAPI mikroservisi (all-MiniLM-L6-v2, 384-dim)
+- `embedder.py` ve `searcher.py` yeni servise bağlandı, Ollama sadece LLM için kaldı
+- Embedding cache (`embeddings_cache.pkl`) eklendi — script kesilirse sıfırdan başlamaz
+- K8s manifest'leri yazıldı: Deployment, Service, HPA (1→4 replica, %50 CPU eşiği)
+- locust yük testi hazırlandı (`load_test/locustfile.py`)
+- Qdrant koleksiyonu 768-dim → 384-dim otomatik migration eklendi
 
-**Kazanımlar:** Kubernetes'in neden bu kadar merkezi olduğu, Helm'in ne sorunu çözdüğü, model serving'in API'den neden ayrılması gerektiği.
+**Kazanımlar:** Model serving'in API'den neden ayrılması gerektiği, HPA'nın nasıl çalıştığı, Kubernetes manifest yapısı, embedding cache'in önemi.
 
 ---
 

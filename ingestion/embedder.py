@@ -1,38 +1,74 @@
+import hashlib
 import logging
 import os
+import pickle
+from pathlib import Path
+
 import httpx
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-EMBED_MODEL = os.getenv("EMBED_MODEL", "nomic-embed-text")
+EMBED_SERVICE_URL = os.getenv("EMBED_SERVICE_URL", "http://localhost:8001")
 BATCH_SIZE = 10
+CACHE_FILE = Path(__file__).parent / "embeddings_cache.pkl"
+
+
+def _load_cache() -> dict:
+    if CACHE_FILE.exists():
+        with open(CACHE_FILE, "rb") as f:
+            cache = pickle.load(f)
+        logger.info(f"Embedding cache yüklendi: {len(cache)} kayıt ({CACHE_FILE})")
+        return cache
+    return {}
+
+
+def _save_cache(cache: dict) -> None:
+    with open(CACHE_FILE, "wb") as f:
+        pickle.dump(cache, f)
+
+
+def _text_hash(text: str) -> str:
+    return hashlib.sha256(text.encode()).hexdigest()
+
+
+def _embed_text(text: str) -> list[float]:
+    response = httpx.post(
+        f"{EMBED_SERVICE_URL}/embed",
+        json={"text": text},
+        timeout=30.0,
+    )
+    response.raise_for_status()
+    return response.json()["embedding"]
 
 
 def embed_chunks(chunks: list[dict]) -> list[dict]:
-    """Her chunk için Ollama'dan embedding alır, 10'ar chunk'lık batch'ler halinde işler."""
+    cache = _load_cache()
     embedded = []
+    new_count = 0
 
-    for batch_start in range(0, len(chunks), BATCH_SIZE):
-        batch = chunks[batch_start: batch_start + BATCH_SIZE]
-        logger.info(
-            f"Embedding: chunk {batch_start + 1}–{batch_start + len(batch)} / {len(chunks)}"
-        )
+    for i, chunk in enumerate(chunks):
+        key = _text_hash(chunk["text"])
 
-        for chunk in batch:
-            response = httpx.post(
-                f"{OLLAMA_BASE_URL}/api/embeddings",
-                json={"model": EMBED_MODEL, "prompt": chunk["text"]},
-                timeout=60.0,
-            )
-            response.raise_for_status()
-            embedding = response.json()["embedding"]
+        if key in cache:
+            embedding = cache[key]
+        else:
+            if new_count == 0 or i % BATCH_SIZE == 0:
+                logger.info(f"Embedding: chunk {i + 1}/{len(chunks)}")
+            embedding = _embed_text(chunk["text"])
+            cache[key] = embedding
+            new_count += 1
 
-            embedded.append({
-                **chunk,
-                "embedding": embedding,
-            })
+            # Her 10 yeni embedding'de cache'i diske yaz
+            if new_count % BATCH_SIZE == 0:
+                _save_cache(cache)
 
-    logger.info(f"Embedding tamamlandı: {len(embedded)} chunk")
+        embedded.append({**chunk, "embedding": embedding})
+
+    if new_count > 0:
+        _save_cache(cache)
+        logger.info(f"Embedding tamamlandı: {len(embedded)} chunk ({new_count} yeni, {len(embedded) - new_count} cache'den)")
+    else:
+        logger.info(f"Embedding tamamlandı: {len(embedded)} chunk (tümü cache'den)")
+
     return embedded
