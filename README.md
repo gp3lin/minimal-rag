@@ -64,7 +64,7 @@ Proje 5 → Ölçek ve dağıtık sistemler
 
 ---
 
-## Proje 4 — Hybrid Retrieval + Knowledge Graph `🔒`
+## Proje 4 — Hybrid Retrieval + Knowledge Graph `✅ Tamamlandı`
 
 **Hedef:** Vektörün yetersiz kaldığı yerde graph'ın ne kattığını görmek.
 
@@ -79,7 +79,7 @@ Proje 5 → Ölçek ve dağıtık sistemler
 
 ---
 
-## Proje 5 — Scalable Infrastructure `🔒`
+## Proje 5 — Scalable Infrastructure `✅ Tamamlandı`
 
 **Hedef:** Sistemi Kubernetes ile deploy etmek.
 
@@ -102,5 +102,5 @@ Proje 5 → Ölçek ve dağıtık sistemler
 | 1 — Minimal RAG    | RAG özü            | ✅ Tamamlandı  |
 | 2 — Production     | Güvenilirlik       | ✅ Tamamlandı  |
 | 3 — Agentic        | Akıl yürütme       | ✅ Tamamlandı  |
-| 4 — Hybrid         | Retrieval kalitesi | ⏳ Sıradaki    |
-| 5 — Scale          | Dağıtık sistemler  | 🔒             |
+| 4 — Hybrid         | Retrieval kalitesi | ✅ Tamamlandı  |
+| 5 — Scale          | Dağıtık sistemler  | ✅ Tamamlandı  |
