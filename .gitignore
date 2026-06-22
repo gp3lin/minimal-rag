@@ -17,3 +17,4 @@ eval/reports/
 .vscode/
 .idea/
 .claude/
+ingestion/embeddings_cache.pkl
